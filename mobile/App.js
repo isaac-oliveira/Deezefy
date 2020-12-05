@@ -1,20 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler'
+import React from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import Routes from './src/routes'
+import { StatusBar } from 'react-native'
+import { color } from './src/themes'
+import { ColorAndroid } from 'react-native/Libraries/StyleSheet/PlatformColorValueTypesAndroid'
 
-export default function App() {
+const App = () => {
   return (
-    <View style={styles.container}>
-      
-    </View>
-  );
+    <NavigationContainer>
+      <StatusBar backgroundColor={color.roxo} />
+      <Routes/>
+    </NavigationContainer>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#3D1E4E',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
