@@ -43,7 +43,7 @@ const LoginScreen = () => {
         name='email'
         control={control}
         onChange={(args) => args[0].nativeEvent.text}
-        defaultValue=''
+        defaultValue='eu@gmail.ufs.bd'
         placeholder='E-mail' 
         keyboardType='email-address'
         error={errors.email?.message} />
@@ -52,7 +52,7 @@ const LoginScreen = () => {
         name='password'
         control={control}
         onChange={(args) => args[0].nativeEvent.text}
-        defaultValue=''
+        defaultValue='55'
         placeholder='Senha' 
         secureTextEntry
         error={errors.password?.message} />
