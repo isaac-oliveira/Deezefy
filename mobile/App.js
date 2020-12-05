@@ -2,8 +2,9 @@ import 'react-native-gesture-handler'
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import Routes from './src/routes'
-import { Platform, StatusBar, UIManager } from 'react-native'
+import { Platform, SafeAreaView, StatusBar, StyleSheet, UIManager } from 'react-native'
 import { color } from './src/themes'
+import AuthProvider from './src/providers/AuthProvider'
 
 if (
   Platform.OS === 'android' &&
@@ -15,10 +16,21 @@ if (
 const App = () => {
   return (
     <NavigationContainer>
-      <StatusBar barStyle='light-content' backgroundColor={color.roxo} />
-      <Routes/>
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle='light-content' backgroundColor={color.roxo} />
+        <AuthProvider>
+          <Routes/>
+        </AuthProvider>
+      </SafeAreaView>
     </NavigationContainer>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: color.roxo
+  }
+})
 
 export default App

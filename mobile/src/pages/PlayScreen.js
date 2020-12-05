@@ -18,12 +18,14 @@ const PlayScreen = () => {
             <View style={styles.content} >
                 <Image source={image.itemBig} style={styles.image} />
                 <Text style={styles.name} >Admirável Chip Novo</Text>
-                <View style={styles.sliderContainer}>
-                    <View style={styles.slider} />
-                </View>
-                <View style={styles.timeContainer} >
-                    <Text style={{color: color.branco}} >00:00</Text>
-                    <Text style={{color: color.cinza}} >03:42</Text>
+                <View style={styles.progressContainer}>
+                    <View style={styles.sliderContainer}>
+                        <View style={styles.slider} />
+                    </View>
+                    <View style={styles.timeContainer} >
+                        <Text style={{color: color.branco}} >00:00</Text>
+                        <Text style={{color: color.cinza}} >03:42</Text>
+                    </View>
                 </View>
                 <View style={styles.buttonContainer} >
                     <TouchableOpacity style={styles.skip} >
@@ -46,7 +48,7 @@ export default PlayScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: color.roxo,
+        backgroundColor: color.roxo
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -59,7 +61,8 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'space-around'
     },
     fab: {
         width: 70,
@@ -82,14 +85,15 @@ const styles = StyleSheet.create({
         fontSize: 22,
         color: color.branco
     },
+    progressContainer: {
+        width: '80%'
+    },
     timeContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '80%',
         padding: 10
     },
     sliderContainer: {
-        width: '80%',
         backgroundColor: '#4B2560',
         marginTop: 40,
         overflow: 'hidden',

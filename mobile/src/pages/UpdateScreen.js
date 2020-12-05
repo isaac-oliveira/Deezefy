@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Image, View, TouchableOpacity, Alert } from 'react-native'
+import { StyleSheet, Image, View, TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native'
 import { color, image } from '../themes'
 import Input from '../components/Input'
 import Button from '../components/Button'
@@ -28,7 +28,7 @@ const UpdateScreen = () => {
     }    
 
     return (
-        <View style={styles.container} >
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
             <TouchableOpacity style={styles.backButton}  onPress={handleBackButton}>
                 <Image source={image.arrowLeft}/>
             </TouchableOpacity>
@@ -39,7 +39,7 @@ const UpdateScreen = () => {
                 <Button backgroundColor={color.roxoClaro}  title={title} onPress={handleUpdate} />
                 {item && <Button backgroundColor={color.rosa} title='Deletar' onPress={handleDelete} />}               
             </View>
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 
@@ -49,13 +49,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.roxo,
+        paddingBottom: 20
     },
     backButton: {
         padding: 15
     },
     content: {
         flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },    
     image: {
         width: 170,

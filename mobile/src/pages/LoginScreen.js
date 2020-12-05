@@ -7,6 +7,7 @@ import { color, image } from '../themes'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import { useNavigation } from '@react-navigation/native'
+import useAuth from '../hooks/useAuth'
 
 
 const schema = yup.object().shape({
@@ -15,14 +16,14 @@ const schema = yup.object().shape({
 })
 
 const LoginScreen = () => {
-  const navigation = useNavigation()
+  const { login } = useAuth()
   const { formState, control, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema)
   })
 
   const onSubmit = data => {
     Alert.alert("form", data.email + ' ' + data.password)
-    navigation.navigate('HomeScreen')
+    login()
   }
 
   const enabledButton = useMemo(() => {

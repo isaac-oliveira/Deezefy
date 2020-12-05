@@ -3,17 +3,19 @@ import { StyleSheet, Image, TextInput, View, TouchableOpacity, FlatList, Text } 
 import { color, image } from '../themes'
 import { musics } from '../data'
 import { useNavigation } from '@react-navigation/native'
+import useAuth from '../hooks/useAuth'
 
 
 const HomeScreen = () => {
     const navigation = useNavigation()
+    const { logout } = useAuth()
 
     function handleAdd() {
         navigation.navigate('UpdateScreen')
     }
 
     function handleLogout() {
-        navigation.navigate('LoginScreen')
+        logout()
     }
 
     const renderItem = ({ item }) => {
