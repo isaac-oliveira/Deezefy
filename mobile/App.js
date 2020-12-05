@@ -2,14 +2,20 @@ import 'react-native-gesture-handler'
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import Routes from './src/routes'
-import { StatusBar } from 'react-native'
+import { Platform, StatusBar, UIManager } from 'react-native'
 import { color } from './src/themes'
-import { ColorAndroid } from 'react-native/Libraries/StyleSheet/PlatformColorValueTypesAndroid'
+
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true)
+}
 
 const App = () => {
   return (
     <NavigationContainer>
-      <StatusBar backgroundColor={color.roxo} />
+      <StatusBar barStyle='light-content' backgroundColor={color.roxo} />
       <Routes/>
     </NavigationContainer>
   )

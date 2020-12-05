@@ -2,16 +2,16 @@ import React from 'react'
 import { TouchableOpacity, Text, StyleSheet } from 'react-native'
 import { color } from '../themes'
 
-const Button = ({ backgroundColor , title }) => {
-    const styles = getStyles({ backgroundColor })
+const Button = ({ disabled, backgroundColor, title, onPress }) => {
+    const styles = getStyles({ backgroundColor, disabled })
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity disabled={disabled} style={styles.container} onPress={onPress}>
             <Text style={styles.text}>{title}</Text>
         </TouchableOpacity>
     )
 }
 
-const getStyles = ({ backgroundColor }) => StyleSheet.create({
+const getStyles = ({ backgroundColor, disabled }) => StyleSheet.create({
     container: {
         flexDirection: 'row',
         backgroundColor,
@@ -20,7 +20,8 @@ const getStyles = ({ backgroundColor }) => StyleSheet.create({
         width: '75%',
         paddingVertical: 15,
         marginVertical: 15,
-        borderRadius: 10
+        borderRadius: 10,
+        opacity: disabled ? .5 : 1
     },
     text: {
         color: color.branco,
