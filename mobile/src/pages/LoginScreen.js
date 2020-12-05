@@ -6,6 +6,7 @@ import * as yup from "yup"
 import { color, image } from '../themes'
 import Input from '../components/Input'
 import Button from '../components/Button'
+import { useNavigation } from '@react-navigation/native'
 
 
 const schema = yup.object().shape({
@@ -14,12 +15,14 @@ const schema = yup.object().shape({
 })
 
 const LoginScreen = () => {
+  const navigation = useNavigation()
   const { formState, control, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema)
   })
 
   const onSubmit = data => {
     Alert.alert("form", data.email + ' ' + data.password)
+    navigation.navigate('HomeScreen')
   }
 
   const enabledButton = useMemo(() => {
@@ -40,7 +43,7 @@ const LoginScreen = () => {
         name='email'
         control={control}
         onChange={(args) => args[0].nativeEvent.text}
-        defaultValue=''
+        defaultValue='eu@gmail.ufs.bd'
         placeholder='E-mail' 
         keyboardType='email-address'
         error={errors.email?.message} />
@@ -49,7 +52,7 @@ const LoginScreen = () => {
         name='password'
         control={control}
         onChange={(args) => args[0].nativeEvent.text}
-        defaultValue=''
+        defaultValue='55'
         placeholder='Senha' 
         secureTextEntry
         error={errors.password?.message} />
