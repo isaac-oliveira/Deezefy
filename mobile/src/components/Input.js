@@ -1,7 +1,6 @@
-import React, { useState, forwardRef, useEffect } from 'react'
+import React, { useState, forwardRef } from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, LayoutAnimation } from 'react-native'
 import { color, image } from '../themes'
-
 
 const Input = ({ secureTextEntry, error, onChange, ...props }, ref) => {
     const [show, setShow] = useState(false || !secureTextEntry)

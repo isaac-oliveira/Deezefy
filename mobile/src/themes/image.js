@@ -1,7 +1,12 @@
 const image = {
     logo: require('../assets/icon.png'),
     eye: require('../assets/eye.png'),
-    eyeOff: require('../assets/eye-off.png')
+    eyeOff: require('../assets/eye-off.png'),
+    search: require('../assets/search.png'),
+    logout: require('../assets/log-out.png'),
+    plus: require('../assets/plus.png'),
+    itemSmall: require('../assets/item-small.png'),
+    edit: require('../assets/edit.png')
 }
 
 export { image }
