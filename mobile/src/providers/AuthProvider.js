@@ -1,15 +1,22 @@
 import React, { useState } from 'react'
+import { Alert } from 'react-native'
 import AuthContext from '../contexts/AuthContext'
+import Api from '../services/api'
 
 const { Provider }  = AuthContext
 
 const AuthProvider = ({ children }) => {
     const [isLogged, setLogged] = useState(false)
 
-    function login () {
+    async function login ({ email, password }) {
+        const response = await Api.login({ email, password })
+        if (!response.ok) {
+            Alert.alert('Ops!', 'Aconteceu algum erro ao conectar a Api')
+            return    
+        }
         setLogged(true)
     }
-
+    
     function logout() {
         setLogged(false)
     }

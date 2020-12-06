@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react'
-import { StyleSheet, KeyboardAvoidingView, Image, Alert } from 'react-native'
+import { StyleSheet, KeyboardAvoidingView, Image } from 'react-native'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
 import { color, image } from '../themes'
 import Input from '../components/Input'
 import Button from '../components/Button'
-import { useNavigation } from '@react-navigation/native'
 import useAuth from '../hooks/useAuth'
 
 
@@ -21,9 +20,8 @@ const LoginScreen = () => {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = data => {
-    Alert.alert("form", data.email + ' ' + data.password)
-    login()
+  const onSubmit = ({ email, password }) => {
+    login({ email, password })
   }
 
   const enabledButton = useMemo(() => {

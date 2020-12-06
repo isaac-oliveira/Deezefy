@@ -1,14 +1,46 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
-import { StyleSheet, Image, View, TouchableOpacity, Text } from 'react-native'
+import React, { useRef } from 'react'
+import { StyleSheet, Image, View, TouchableOpacity, Text, Dimensions, Animated } from 'react-native'
 import { color, image } from '../themes'
 
+const { width } = Dimensions.get('window')
+
+const PROGRESS_WIDTH = width * 0.8
+
 const PlayScreen = () => {
+    const animSlider = useRef(new Animated.Value(0)).current
+    const animImage = useRef(new Animated.Value(0)).current
+
     const navigation = useNavigation()
 
     function handleBackButton() {
         navigation.goBack()
     }
+
+    function handlePlayPause() {
+        Animated.timing(animSlider, {
+            toValue: 1,
+            duration: 5000,
+            useNativeDriver: true
+        }).start()
+        Animated.loop(
+            Animated.timing(animImage, {
+                toValue: 1,
+                duration: 2000,
+                useNativeDriver
+            })
+        ).start()
+    }
+
+    const rotate = animSlider.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '360deg']
+    })
+
+    const translateX = animImage.interpolate({
+        inputRange: [0, 1],
+        outputRange: [-PROGRESS_WIDTH, 0]
+    })
 
     return (
         <View style={styles.container} >
@@ -16,11 +48,19 @@ const PlayScreen = () => {
                 <Image source={image.arrowLeft}/>
             </TouchableOpacity>
             <View style={styles.content} >
-                <Image source={image.itemBig} style={styles.image} />
+                <Animated.Image source={image.itemBig} style={[styles.image, {
+                    transform: [
+                        { rotate }
+                    ]
+                }]} />
                 <Text style={styles.name} >Admirável Chip Novo</Text>
                 <View style={styles.progressContainer}>
                     <View style={styles.sliderContainer}>
-                        <View style={styles.slider} />
+                        <Animated.View style={[styles.slider, {
+                            transform: [
+                                { translateX }
+                            ]
+                        }]} />
                     </View>
                     <View style={styles.timeContainer} >
                         <Text style={{color: color.branco}} >00:00</Text>
@@ -31,7 +71,7 @@ const PlayScreen = () => {
                     <TouchableOpacity style={styles.skip} >
                         <Image source={image.skipBack}/>
                     </TouchableOpacity>
-                    <TouchableOpacity  style={styles.fab} >
+                    <TouchableOpacity  style={styles.fab} onPress={handlePlayPause}>
                         <Image source={image.play}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.skip} >
@@ -86,7 +126,7 @@ const styles = StyleSheet.create({
         color: color.branco
     },
     progressContainer: {
-        width: '80%'
+        width: PROGRESS_WIDTH
     },
     timeContainer: {
         flexDirection: 'row',
@@ -102,6 +142,6 @@ const styles = StyleSheet.create({
     slider: {
         backgroundColor: color.roxoClaro,
         padding: 10,
-        width: '23%'
+        width: PROGRESS_WIDTH
     },
 })
