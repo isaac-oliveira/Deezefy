@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useRef } from 'react'
-import { StyleSheet, Image, View, TouchableOpacity, Text, Dimensions, Animated } from 'react-native'
+import React, { useRef, useState } from 'react'
+import { StyleSheet, Image, View, TouchableOpacity, Text, Dimensions, Animated, Easing } from 'react-native'
 import { color, image } from '../themes'
 
 const { width } = Dimensions.get('window')
@@ -8,8 +8,23 @@ const { width } = Dimensions.get('window')
 const PROGRESS_WIDTH = width * 0.8
 
 const PlayScreen = () => {
+    const [isPlaying, setPlaying] = useState(false)
     const animSlider = useRef(new Animated.Value(0)).current
     const animImage = useRef(new Animated.Value(0)).current
+
+    const animatedSlider = Animated.timing(animSlider, {
+        toValue: 1,
+        duration: 10000,
+        useNativeDriver: true
+    })
+    const animatedImage = Animated.loop(
+        Animated.timing(animImage, {
+            toValue: 1,
+            duration: 3000,
+            easing: Easing.linear,
+            useNativeDriver: true
+        })
+    )
 
     const navigation = useNavigation()
 
@@ -18,26 +33,27 @@ const PlayScreen = () => {
     }
 
     function handlePlayPause() {
-        Animated.timing(animSlider, {
-            toValue: 1,
-            duration: 5000,
-            useNativeDriver: true
-        }).start()
-        Animated.loop(
-            Animated.timing(animImage, {
-                toValue: 1,
-                duration: 2000,
-                useNativeDriver
+        if(!isPlaying) {
+            animSlider.setValue(0)
+            animatedSlider.start(() => {
+                animatedImage.stop()
+                animImage.setValue(0)
+                setPlaying(false)
             })
-        ).start()
+            animatedImage.start()
+        } else {
+            animatedSlider.stop()
+            animatedImage.stop()
+        }
+        setPlaying(!isPlaying)
     }
 
-    const rotate = animSlider.interpolate({
+    const rotate = animImage.interpolate({
         inputRange: [0, 1],
         outputRange: ['0deg', '360deg']
     })
 
-    const translateX = animImage.interpolate({
+    const translateX = animSlider.interpolate({
         inputRange: [0, 1],
         outputRange: [-PROGRESS_WIDTH, 0]
     })

@@ -1,11 +1,12 @@
 import React from 'react'
-import { TouchableOpacity, Text, StyleSheet } from 'react-native'
+import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native'
 import { color } from '../themes'
 
-const Button = ({ disabled, backgroundColor, title, onPress }) => {
+const Button = ({ loading, disabled, backgroundColor, title, onPress }) => {
     const styles = getStyles({ backgroundColor, disabled })
     return (
-        <TouchableOpacity disabled={disabled} style={styles.container} onPress={onPress}>
+        <TouchableOpacity disabled={disabled || loading} style={styles.container} onPress={onPress}>
+            {loading && <ActivityIndicator style={styles.loading} color={color.branco} size="small" />}
             <Text style={styles.text}>{title}</Text>
         </TouchableOpacity>
     )
@@ -27,6 +28,10 @@ const getStyles = ({ backgroundColor, disabled }) => StyleSheet.create({
         color: color.branco,
         fontSize: 20,
         fontWeight: 'bold' 
+    },
+    loading: {
+        position: 'absolute',
+        left: 20
     }
 })
 

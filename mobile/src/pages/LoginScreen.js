@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { StyleSheet, KeyboardAvoidingView, Image } from 'react-native'
+import { StyleSheet, KeyboardAvoidingView, Image, ActivityIndicator } from 'react-native'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
@@ -15,7 +15,7 @@ const schema = yup.object().shape({
 })
 
 const LoginScreen = () => {
-  const { login } = useAuth()
+  const { fetching, login } = useAuth()
   const { formState, control, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema)
   })
@@ -55,7 +55,9 @@ const LoginScreen = () => {
         placeholder='Senha' 
         secureTextEntry
         error={errors.password?.message} />
+
       <Button 
+        loading={fetching}
         title='Entrar' 
         disabled={!enabledButton} 
         backgroundColor={color.rosa} 
