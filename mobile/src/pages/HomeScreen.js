@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Image, TextInput, View, TouchableOpacity, FlatList, Text } from 'react-native'
 import { color, image } from '../themes'
 import { musics } from '../data'
 import { useNavigation } from '@react-navigation/native'
 import useAuth from '../hooks/useAuth'
+import TextFindQuery from '../components/TextFindQuery'
 
 
 const HomeScreen = () => {
     const navigation = useNavigation()
     const { logout } = useAuth()
+    const [query, setQuery] = useState('')
+    const [data, setData] = useState(musics)
+
+    useEffect(() => {
+        setData(musics.filter(item => item.name.toLowerCase().includes(query.toLowerCase())))
+    }, [query])
 
     function handleAdd() {
         navigation.navigate('UpdateScreen')
@@ -18,9 +25,12 @@ const HomeScreen = () => {
         logout()
     }
 
-    const renderItem = ({ item }) => {
+    const renderItem = ({ item, index }) => {
         function handleItem() {
-            navigation.navigate('PlayScreen')
+            navigation.navigate('PlayScreen', {
+                index,
+                data
+            })
         }
         function handleEdit() {
             navigation.navigate('UpdateScreen', {
@@ -31,7 +41,7 @@ const HomeScreen = () => {
             <TouchableOpacity style={styles.item} onPress={handleItem}>
                 <Image source={image.itemSmall} />
                 <View style={styles.textContainer}> 
-                    <Text style={styles.name}>{item.name}</Text>
+                    <TextFindQuery style={styles.name} query={query}>{item.name}</TextFindQuery>
                     <Text style={styles.duration}>{item.duration}</Text>
                 </View>
                 <TouchableOpacity style={{ padding: 10 }} onPress={handleEdit}>
@@ -47,6 +57,8 @@ const HomeScreen = () => {
                 <Image source={image.search}/>
                 <TextInput 
                     style={styles.input}
+                    value={query}
+                    onChangeText={setQuery}
                     placeholder='Buscar'
                     placeholderTextColor='silver'
                 />
@@ -55,7 +67,7 @@ const HomeScreen = () => {
                 </TouchableOpacity>
             </View>
             <FlatList 
-                data={musics}
+                data={data}
                 keyExtractor={(item) => String(item.id)}
                 renderItem={renderItem}
                 style={styles.list}

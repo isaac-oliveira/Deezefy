@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { StyleSheet, Image, View, TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from "yup"
 import { color, image } from '../themes'
 import Input from '../components/Input'
 import Button from '../components/Button'
-import { useNavigation, useRoute } from '@react-navigation/native'
+
+const schema = yup.object().shape({
+    name: yup.string().required("Campo vazio"),
+    duration: yup
+        .string()
+        .trim()
+        .min(5, 'Tamanho inválido')
+        .matches(/[0-5][0-9]:[0-5][0-9]/g, 'Formato inválido (mm:ss)')
+        .required('Campo vazio'),
+  })
 
 const UpdateScreen = () => {
     const navigation = useNavigation()
@@ -11,11 +24,15 @@ const UpdateScreen = () => {
     const item = routes.params?.item
     const title = item ? 'Salvar' : 'Adicionar'
 
+    const { formState, control, handleSubmit, errors } = useForm({
+        resolver: yupResolver(schema)
+      })
+
     function handleBackButton() {
         navigation.goBack()
     }
 
-    function handleUpdate() {
+    function onSubmit() {
         if (item) {
             Alert.alert('Alerta', 'Atualizou')
             return
@@ -27,16 +44,40 @@ const UpdateScreen = () => {
         Alert.alert('Alerta', 'Deletou')
     }    
 
+    const enabledButton = useMemo(() => {
+        const dirtyKeys = Object.keys(formState.dirtyFields)
+        const errorKeys = Object.keys(formState.errors)
+    
+        const allFieldsFilled = dirtyKeys.length === 2 && formState.isDirty
+        const noError = errorKeys.length === 0
+    
+        return allFieldsFilled && noError || item
+     }, [formState])
+
     return (
-        <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <KeyboardAvoidingView style={styles.container} behavior={Platform.select({ android: 'height', ios: 'padding'})}>
             <TouchableOpacity style={styles.backButton}  onPress={handleBackButton}>
                 <Image source={image.arrowLeft}/>
             </TouchableOpacity>
             <View style={styles.content} >
                 <Image source={image.itemBig} style={styles.image} />
-                <Input placeholder='Nome da Música' />
-                <Input placeholder='Duração' />
-                <Button backgroundColor={color.roxoClaro}  title={title} onPress={handleUpdate} />
+                <Controller 
+                    name='name'
+                    as={Input}
+                    control={control}
+                    placeholder='Nome da Música'
+                    defaultValue={item?.name || ''}
+                    error={errors.name?.message} />
+                <Controller 
+                    name='duration'
+                    as={Input}
+                    control={control}
+                    placeholder='Duração'
+                    defaultValue={item?.duration || ''}
+                    keyboardType="number-pad"
+                    error={errors.duration?.message}
+                    maxLength={5} />
+                <Button disabled={!enabledButton} backgroundColor={color.roxoClaro}  title={title} onPress={handleSubmit(onSubmit)} />
                 {item && <Button backgroundColor={color.rosa} title='Deletar' onPress={handleDelete} />}               
             </View>
         </KeyboardAvoidingView>

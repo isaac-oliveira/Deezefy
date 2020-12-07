@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import React, { useRef, useState } from 'react'
 import { StyleSheet, Image, View, TouchableOpacity, Text, Dimensions, Animated, Easing } from 'react-native'
 import { color, image } from '../themes'
@@ -8,9 +8,13 @@ const { width } = Dimensions.get('window')
 const PROGRESS_WIDTH = width * 0.8
 
 const PlayScreen = () => {
+    const { params } = useRoute()
+    const data = params.data
+    const [index, setIndex] = useState(params?.index || 0)
     const [isPlaying, setPlaying] = useState(false)
     const animSlider = useRef(new Animated.Value(0)).current
     const animImage = useRef(new Animated.Value(0)).current
+    const item = data[index]
 
     const animatedSlider = Animated.timing(animSlider, {
         toValue: 1,
@@ -48,6 +52,20 @@ const PlayScreen = () => {
         setPlaying(!isPlaying)
     }
 
+    function handleSkip(value) {
+        return () => {
+            const nextIndex = index + value
+            if(nextIndex >= 0 && nextIndex < data.length) {
+                setIndex(index + value) 
+                animatedSlider.stop()
+                animatedImage.stop()
+                animImage.setValue(0)
+                animSlider.setValue(0)
+                setPlaying(false)
+            }
+        }
+    }
+
     const rotate = animImage.interpolate({
         inputRange: [0, 1],
         outputRange: ['0deg', '360deg']
@@ -69,7 +87,7 @@ const PlayScreen = () => {
                         { rotate }
                     ]
                 }]} />
-                <Text style={styles.name} >Admirável Chip Novo</Text>
+                <Text style={styles.name} >{item.name}</Text>
                 <View style={styles.progressContainer}>
                     <View style={styles.sliderContainer}>
                         <Animated.View style={[styles.slider, {
@@ -80,17 +98,17 @@ const PlayScreen = () => {
                     </View>
                     <View style={styles.timeContainer} >
                         <Text style={{color: color.branco}} >00:00</Text>
-                        <Text style={{color: color.cinza}} >03:42</Text>
+                        <Text style={{color: color.cinza}} >{item.duration}</Text>
                     </View>
                 </View>
                 <View style={styles.buttonContainer} >
-                    <TouchableOpacity style={styles.skip} >
+                    <TouchableOpacity style={styles.skip} onPress={handleSkip(-1)}>
                         <Image source={image.skipBack}/>
                     </TouchableOpacity>
                     <TouchableOpacity  style={styles.fab} onPress={handlePlayPause}>
-                        <Image source={image.play}/>
+                        <Image source={image[!isPlaying ? 'play' : 'pause']}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.skip} >
+                    <TouchableOpacity style={styles.skip} onPress={handleSkip(1)}>
                         <Image source={image.skipForward}/>
                     </TouchableOpacity>
                 </View>

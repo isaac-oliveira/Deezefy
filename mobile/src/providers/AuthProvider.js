@@ -11,15 +11,14 @@ const AuthProvider = ({ children }) => {
 
     async function login ({ email, password }) {
         setFetching(true)
-        setTimeout(async () => {
-            const response = await Api.login({ email, password })
-            if (!response.ok) {
-                Alert.alert('Ops!', 'Aconteceu algum erro ao conectar a Api')
-                return    
-            }
-            setLogged(true)
+        const response = await Api.login({ email, password })
+        if (!response.ok) {
+            Alert.alert('Ops!', 'Aconteceu algum erro ao conectar a Api')
             setFetching(false)
-        }, 5000)
+            return    
+        }
+        setLogged(true)
+        setFetching(false)
     }
     
     function logout() {

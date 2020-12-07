@@ -11,10 +11,12 @@ const Stack = createStackNavigator();
 const Routes = () => {
     const { isLogged } = useAuth()
 
+    if(!isLogged) 
+        return <LoginScreen />
+
     return (
         <Stack.Navigator headerMode='none'>
-            { !isLogged && <Stack.Screen name='LoginScreen' component={LoginScreen} />}
-            { isLogged && <Stack.Screen name='HomeScreen' component={HomeScreen} />}
+            <Stack.Screen name='HomeScreen' component={HomeScreen} />
             <Stack.Screen name='PlayScreen' component={PlayScreen} />
             <Stack.Screen name='UpdateScreen' component={UpdateScreen} />
         </Stack.Navigator>

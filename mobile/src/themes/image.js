@@ -9,6 +9,7 @@ const image = {
     edit: require('../assets/edit.png'),
     arrowLeft: require('../assets/arrow-left.png'),
     play: require('../assets/play.png'),
+    pause: require('../assets/pause.png'),
     skipBack: require('../assets/skip-back.png'),
     itemBig: require('../assets/item-big.png'),
     skipForward: require('../assets/skip-forward.png')

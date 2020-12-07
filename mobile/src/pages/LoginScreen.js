@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { StyleSheet, KeyboardAvoidingView, Image, ActivityIndicator } from 'react-native'
+import { StyleSheet, KeyboardAvoidingView, Image, ActivityIndicator, Platform } from 'react-native'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup"
@@ -7,7 +7,6 @@ import { color, image } from '../themes'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import useAuth from '../hooks/useAuth'
-
 
 const schema = yup.object().shape({
   email: yup.string().email('E-mail inválido').required("Campo vazio"),
@@ -35,7 +34,7 @@ const LoginScreen = () => {
   }, [formState])
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior='padding'>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.select({ android: 'height', ios: 'padding'})}>
       <Image source={image.logo} style={styles.logo} />
       <Controller
         as={Input} 

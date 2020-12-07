@@ -2,7 +2,7 @@ import React, { useState, forwardRef } from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, LayoutAnimation } from 'react-native'
 import { color, image } from '../themes'
 
-const Input = ({ secureTextEntry, error, onChange, ...props }, ref) => {
+const Input = ({ secureTextEntry, error, onChange, onChangeText,...props }, ref) => {
     const [show, setShow] = useState(false || !secureTextEntry)
     const [focused, setFocused] = useState(false)
 
@@ -33,7 +33,12 @@ const Input = ({ secureTextEntry, error, onChange, ...props }, ref) => {
                     secureTextEntry={!show}
                     onFocus={onFocus}
                     onBlur={onBlur}
-                    onChangeText={onChange} />
+                    onChangeText={(text) => {
+                        if(onChange)
+                            onChange(text)
+                        if(onChangeText)
+                            onChangeText(text)
+                    }} />
                 {secureTextEntry &&
                     <TouchableOpacity onPress={handleEye}>
                         <Image source={icon}/>
