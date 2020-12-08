@@ -1,4 +1,4 @@
-function splitQueryText (text: string, query: string): string[] {
+function splitQueryText (text, query) {
     if (!query) {
       return [text]
     }
