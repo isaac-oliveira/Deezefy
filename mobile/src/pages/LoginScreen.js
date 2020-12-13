@@ -50,7 +50,7 @@ const LoginScreen = () => {
         name='password'
         control={control}
         onChange={(args) => args[0].nativeEvent.text}
-        defaultValue='55'
+        defaultValue=''
         placeholder='Senha' 
         secureTextEntry
         error={errors.password?.message} />

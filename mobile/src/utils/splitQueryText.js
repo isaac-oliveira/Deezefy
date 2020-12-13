@@ -1,7 +1,8 @@
-function splitQueryText(text: string, query: string): string[] {
-  if (query.trim() === "") {
+function splitQueryText(text, query) {
+  if (!query) {
     return [text];
   }
+
   const regex = new RegExp(`(\\${query.toUpperCase()})`, "i");
 
   return text.split(regex);
