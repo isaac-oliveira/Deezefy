@@ -1,13 +1,14 @@
-const express = require('express')
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv/config");
+}
+
+const express = require("express");
+
+const Router = require("./routes");
 
 const app = express();
 
-app.get('/', (req, res) => {
-    return res.send("Bem-vindo ao Basefy")
-})
+app.use(express.json());
+app.use(Router);
 
-app.post('/login', (req, res) => {    
-    return res.json({ logged: true })
-})
-
-app.listen(3333)
+app.listen(3333);
