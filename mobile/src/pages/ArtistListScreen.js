@@ -7,8 +7,7 @@ import useAuth from '../hooks/useAuth'
 import TextFindQuery from '../components/TextFindQuery'
 import Button from "../components/Button";
 
-
-const FollowScreen = () => {
+const ArtistListScreen = () => {
     const navigation = useNavigation()
     const { logout } = useAuth()
     const [query, setQuery] = useState('')
@@ -83,7 +82,7 @@ const FollowScreen = () => {
     )
 }
 
-export default FollowScreen
+export default ArtistListScreen
 
 const styles = StyleSheet.create({
     container: {
