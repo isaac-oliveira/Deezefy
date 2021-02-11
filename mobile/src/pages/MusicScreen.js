@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Image, TextInput, View, TouchableOpacity, FlatList, Text } from 'react-native'
 import { color, image } from '../themes'
-import { musics } from '../data'
 import { useNavigation } from '@react-navigation/native'
 import useAuth from '../hooks/useAuth'
 import TextFindQuery from '../components/TextFindQuery'
-
+import Api from '../services/api'
 
 const MusicScreen = () => {
     const navigation = useNavigation()
-    const { logout } = useAuth()
+    const { logout, token } = useAuth()
     const [query, setQuery] = useState('')
+    const [musics, setMusics] = useState([])
     const [data, setData] = useState(musics)
 
     useEffect(() => {
-        setData(musics.filter(item => item.name.toLowerCase().includes(query.toLowerCase())))
-    }, [query])
+        Api.getMusics(token).then((response) => {
+            setMusics(response.data)
+        })
+    }, [])
+
+    useEffect(() => {
+        setData(musics.filter(item => item.nome.toLowerCase().includes(query.toLowerCase())))
+    }, [query, musics])
 
     function handleAdd() {
         navigation.navigate('UpdateScreen')
@@ -41,8 +47,8 @@ const MusicScreen = () => {
             <TouchableOpacity style={styles.item} onPress={handleItem}>
                 <Image source={image.itemSmall} />
                 <View style={styles.textContainer}> 
-                    <TextFindQuery style={styles.name} query={query}>{item.name}</TextFindQuery>
-                    <Text style={styles.duration}>{item.duration}</Text>
+                    <TextFindQuery style={styles.name} query={query}>{item.nome}</TextFindQuery>
+                    <Text style={styles.duration}>{item.duracao}</Text>
                 </View>
                 <TouchableOpacity style={{ padding: 10 }} onPress={handleEdit}>
                     <Image source={image.edit} />

@@ -11,6 +11,14 @@ const login = async ({ email, password }) =>
     password,
   });
 
+const getMusics = async (token) =>
+  await api.get("/musics", {}, {
+    headers: {
+      authorization: `Bearer ${token}`
+    }
+  });
+
 export default {
   login,
+  getMusics
 };

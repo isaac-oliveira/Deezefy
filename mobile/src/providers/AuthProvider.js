@@ -8,6 +8,7 @@ const { Provider }  = AuthContext
 const AuthProvider = ({ children }) => {
     const [fetching, setFetching] = useState(false)
     const [isLogged, setLogged] = useState(false)
+    const [token, setToken] = useState(null)
 
     async function login ({ email, password }) {
         setFetching(true)
@@ -17,6 +18,7 @@ const AuthProvider = ({ children }) => {
             setFetching(false)
             return    
         }
+        setToken(response.data.token)
         setLogged(true)
         setFetching(false)
     }
@@ -26,7 +28,7 @@ const AuthProvider = ({ children }) => {
     }
 
     return (
-        <Provider value={{ isLogged, fetching, login, logout }}>
+        <Provider value={{ isLogged, fetching, login, logout, token }}>
             {children}
         </Provider>
     )
