@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Basefy",
-    "slug": "Basefy",
+    "name": "Deezefy",
+    "slug": "Deezefy",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
@@ -18,7 +18,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "br.com.ufs.basefy",
+      "bundleIdentifier": "br.com.ufs.deezefy",
       "buildNumber": "1.0.0"
     },
     "android": {
@@ -26,7 +26,7 @@
         "foregroundImage": "./src/assets/icon.png",
         "backgroundColor": "#3D1E4E"
       },
-      "package": "br.com.ufs.basefy",
+      "package": "br.com.ufs.deezefy",
       "versionCode": 1
     },
     "web": {
