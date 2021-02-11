@@ -13,6 +13,7 @@ import { color, image } from "../themes";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import useAuth from "../hooks/useAuth";
+import { useNavigation } from '@react-navigation/native'
 
 const schema = yup.object().shape({
   email: yup.string().email("E-mail inválido").required("Campo vazio"),
@@ -21,6 +22,7 @@ const schema = yup.object().shape({
 
 const LoginScreen = () => {
   const { fetching, login } = useAuth();
+  const navigation = useNavigation()
   const { formState, control, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema),
   });
@@ -28,6 +30,10 @@ const LoginScreen = () => {
   const onSubmit = ({ email, password }) => {
     login({ email, password });
   };
+
+  function handleRegister() {
+    navigation.navigate('RegisterScreen')
+  }
 
   const enabledButton = useMemo(() => {
     const dirtyKeys = Object.keys(formState.dirtyFields);
@@ -70,6 +76,14 @@ const LoginScreen = () => {
         disabled={!enabledButton}
         backgroundColor={color.rosa}
         onPress={handleSubmit(onSubmit)}
+      />
+
+      <Button
+        loading={fetching}
+        title="Cadastrar"
+        textColor={color.rosa}
+        backgroundColor={color.branco}
+        onPress={handleRegister}
       />
     </KeyboardAvoidingView>
   );

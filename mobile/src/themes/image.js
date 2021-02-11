@@ -12,7 +12,9 @@ const image = {
     pause: require('../assets/pause.png'),
     skipBack: require('../assets/skip-back.png'),
     itemBig: require('../assets/item-big.png'),
-    skipForward: require('../assets/skip-forward.png')
+    skipForward: require('../assets/skip-forward.png'),
+    checked: require('../assets/checked.png'),
+    unchecked: require('../assets/unchecked.png')
 }
 
 export { image }

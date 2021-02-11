@@ -7,7 +7,7 @@ import useAuth from '../hooks/useAuth'
 import TextFindQuery from '../components/TextFindQuery'
 
 
-const HomeScreen = () => {
+const FollowScreen = () => {
     const navigation = useNavigation()
     const { logout } = useAuth()
     const [query, setQuery] = useState('')
@@ -66,6 +66,7 @@ const HomeScreen = () => {
                     <Image source={image.logout}/>
                 </TouchableOpacity>
             </View>
+            <Text style={styles.title}>Segue</Text>
             <FlatList 
                 data={data}
                 keyExtractor={(item) => String(item.id)}
@@ -81,7 +82,7 @@ const HomeScreen = () => {
     )
 }
 
-export default HomeScreen
+export default FollowScreen
 
 const styles = StyleSheet.create({
     container: {
@@ -138,5 +139,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         right: 0
+    },
+    title: {
+        color: color.branco,
+        fontSize: 30,
+        fontWeight: '700',
+        marginTop: 20,
+        marginBottom: 10
     }
 })

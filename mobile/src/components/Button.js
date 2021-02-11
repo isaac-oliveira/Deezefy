@@ -2,8 +2,8 @@ import React from 'react'
 import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native'
 import { color } from '../themes'
 
-const Button = ({ loading, disabled, backgroundColor, title, onPress }) => {
-    const styles = getStyles({ backgroundColor, disabled })
+const Button = ({ loading, disabled, backgroundColor, textColor, title, onPress }) => {
+    const styles = getStyles({ backgroundColor, textColor, disabled })
     return (
         <TouchableOpacity disabled={disabled || loading} style={styles.container} onPress={onPress}>
             {loading && <ActivityIndicator style={styles.loading} color={color.branco} size="small" />}
@@ -12,7 +12,7 @@ const Button = ({ loading, disabled, backgroundColor, title, onPress }) => {
     )
 }
 
-const getStyles = ({ backgroundColor, disabled }) => StyleSheet.create({
+const getStyles = ({ backgroundColor, textColor, disabled }) => StyleSheet.create({
     container: {
         flexDirection: 'row',
         backgroundColor,
@@ -25,7 +25,7 @@ const getStyles = ({ backgroundColor, disabled }) => StyleSheet.create({
         opacity: disabled ? .5 : 1
     },
     text: {
-        color: color.branco,
+        color: textColor || color.branco,
         fontSize: 20,
         fontWeight: 'bold' 
     },
