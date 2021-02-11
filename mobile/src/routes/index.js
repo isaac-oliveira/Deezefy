@@ -7,6 +7,7 @@ import Auth from "./auth";
 import LoginScreen from "../pages/LikeScreen";
 import PlayScreen from "../pages/PlayScreen";
 import UpdateScreen from "../pages/UpdateScreen";
+import CreatePlaylistScreen from "../pages/CreatePlaylistScreen";
 import useAuth from "../hooks/useAuth";
 
 const Stack = createStackNavigator();
@@ -21,6 +22,10 @@ const Routes = () => {
       <Stack.Screen name="Tabs" component={Tabs} />
       <Stack.Screen name="PlayScreen" component={PlayScreen} />
       <Stack.Screen name="UpdateScreen" component={UpdateScreen} />
+      <Stack.Screen
+        name="CreatePlaylistScreen"
+        component={CreatePlaylistScreen}
+      />
     </Stack.Navigator>
   );
 };

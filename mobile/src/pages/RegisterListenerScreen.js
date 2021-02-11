@@ -15,19 +15,19 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import useAuth from "../hooks/useAuth";
 import { ScrollView } from "react-native-gesture-handler";
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from "@react-navigation/native";
 
 const RegisterListenerScreen = () => {
   const { fetching, login } = useAuth();
   const { formState, control, handleSubmit, errors } = useForm();
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const onSubmit = ({ email, password }) => {
     login({ email, password });
   };
 
   function handleCancel() {
-    navigation.navigate('LoginScreen')
+    navigation.navigate("LoginScreen");
   }
 
   // const enabledButton = useMemo(() => {
@@ -41,11 +41,8 @@ const RegisterListenerScreen = () => {
   // });
 
   return (
-    <ScrollView>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.select({ android: "height", ios: "padding" })}
-      >
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <KeyboardAvoidingView style={styles.container}>
         <Image source={image.logo} style={styles.logo} />
 
         <Text style={styles.text}>Ouvinte</Text>
@@ -116,11 +113,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    fontWeight: '700',
-    color: color.branco
+    fontWeight: "700",
+    color: color.branco,
   },
   input: {
     width: 295,
-    height:224
-  }
+    height: 224,
+  },
 });

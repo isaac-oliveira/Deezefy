@@ -15,30 +15,28 @@ import Button from "../components/Button";
 import CheckBox from "../components/CheckBox";
 import useAuth from "../hooks/useAuth";
 import { ScrollView } from "react-native-gesture-handler";
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from "@react-navigation/native";
 
 const RegisterScreen = () => {
   const { fetching, login } = useAuth();
   const { formState, control, handleSubmit, errors } = useForm();
-  const navigation = useNavigation()
-  const [ isArtist, setIsArtist ] = useState();
+  const navigation = useNavigation();
+  const [isArtist, setIsArtist] = useState();
 
   const onSubmit = ({ email, password }) => {
     login({ email, password });
   };
 
   function handleBack() {
-    navigation.navigate('LoginScreen')
+    navigation.navigate("LoginScreen");
   }
 
   function handleNext() {
     if (isArtist) {
-      navigation.navigate('RegisterArtistScreen')
+      navigation.navigate("RegisterArtistScreen");
+    } else {
+      navigation.navigate("RegisterListenerScreen");
     }
-    else {
-      navigation.navigate('RegisterListenerScreen')
-    }
-    
   }
 
   // const enabledButton = useMemo(() => {
@@ -52,11 +50,8 @@ const RegisterScreen = () => {
   // });
 
   return (
-    <ScrollView>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.select({ android: "height", ios: "padding" })}
-      >
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <KeyboardAvoidingView style={styles.container}>
         <Image source={image.logo} style={styles.logo} />
         <Controller
           as={Input}
@@ -67,7 +62,6 @@ const RegisterScreen = () => {
           keyboardType="email-address"
           error={errors.email?.message}
         />
-
         <Controller
           as={Input}
           name="password"
@@ -77,7 +71,6 @@ const RegisterScreen = () => {
           secureTextEntry
           error={errors.password?.message}
         />
-
         <Controller
           as={Input}
           name="data"
@@ -87,18 +80,13 @@ const RegisterScreen = () => {
           keyboardType="email-address"
           error={errors.email?.message}
         />
-
-        <CheckBox 
-          title="Artista"
-          onChange={setIsArtist} />
-
+        <CheckBox title="Artista" onChange={setIsArtist} />
         <Button
           loading={fetching}
           title="Próximo"
           backgroundColor={color.rosa}
           onPress={handleNext}
         />
-
         <Button
           loading={fetching}
           title="Voltar"

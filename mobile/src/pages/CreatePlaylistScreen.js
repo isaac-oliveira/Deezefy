@@ -19,15 +19,10 @@ import api from "../services/api";
 
 const schema = yup.object().shape({
   name: yup.string().required("Campo vazio"),
-  duration: yup
-    .string()
-    .trim()
-    .min(5, "Tamanho inválido")
-    .matches(/[0-5][0-9]:[0-5][0-9]/g, "Formato inválido (mm:ss)")
-    .required("Campo vazio"),
+  status: yup.string().required("Campo vazio"),
 });
 
-const UpdateScreen = () => {
+const CreatePlaylistScreen = () => {
   const { email } = useAuth();
   const navigation = useNavigation();
   const routes = useRoute();
@@ -43,41 +38,18 @@ const UpdateScreen = () => {
   }
 
   async function onSubmit(data) {
-    const [min, seg] = data.duration.split(":").map(Number);
-    const milli = (min * 60 + seg) * 1000;
-
-    const response = await api.createMusic({
-      id: Math.round(Math.random() * 10000 + Math.random()), // Colocar banco como SERIAL
+    const response = await api.createPlaylist({
       name: data.name,
-      duration: milli,
-      albumId: 1,
+      status: data.status,
       email,
     });
 
     if (!response.ok) {
-      Alert.alert("Opa!", response.data.error);
+      Alert.alert("Opa!", "Nome já existe");
       return;
     }
     Alert.alert("Sucesso!", response.data.message);
   }
-
-  const renderDurationInput = ({ onChange, ...rest }) => {
-    return (
-      <Input
-        {...rest}
-        placeholder="Duração"
-        keyboardType="number-pad"
-        error={errors.duration?.message}
-        onChangeText={(text) => {
-          const duration = text
-            .replace(/\D/g, "")
-            .replace(/(\d{2})(\d{2})/, "$1:$2");
-          onChange(duration);
-        }}
-        maxLength={5}
-      />
-    );
-  };
 
   const enabledButton = useMemo(() => {
     const dirtyKeys = Object.keys(formState.dirtyFields);
@@ -103,15 +75,17 @@ const UpdateScreen = () => {
           name="name"
           as={Input}
           control={control}
-          placeholder="Nome da Música"
+          placeholder="Nome da Playlist"
           defaultValue={""}
           error={errors.name?.message}
         />
         <Controller
-          name="duration"
+          name="status"
+          as={Input}
           control={control}
+          placeholder="Status"
           defaultValue={""}
-          render={renderDurationInput}
+          error={errors.status?.message}
         />
         <Button
           disabled={!enabledButton}
@@ -119,19 +93,12 @@ const UpdateScreen = () => {
           title={title}
           onPress={handleSubmit(onSubmit)}
         />
-        {/* {item && (
-          <Button
-            backgroundColor={color.rosa}
-            title="Deletar"
-            onPress={handleDelete}
-          />
-        )} */}
       </View>
     </KeyboardAvoidingView>
   );
 };
 
-export default UpdateScreen;
+export default CreatePlaylistScreen;
 
 const styles = StyleSheet.create({
   container: {
